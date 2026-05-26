@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -102,7 +102,6 @@ CvAStar::CvAStar()
 	m_pBest = NULL;
 	m_pStackHead = NULL;
 
-	m_ppaaNodes = NULL;
 
 	m_bIsMPCacheSafe = false;
 	m_bDataChangeInvalidatesCache = false;
@@ -119,16 +118,7 @@ CvAStar::~CvAStar()
 /// Frees allocated memory
 void CvAStar::DeInit()
 {
-	if (m_ppaaNodes != NULL)
-	{
-		for (int iI = 0; iI < m_iColumns; iI++)
-		{
-			FFREEALIGNED(m_ppaaNodes[iI]);
-		}
-
-		FFREEALIGNED(m_ppaaNodes);
-		m_ppaaNodes=0;
-	}
+	m_nodePool.DeInit();
 }
 
 //	--------------------------------------------------------------------------------
@@ -172,27 +162,8 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 	m_pBest = NULL;
 	m_pStackHead = NULL;
 
-	m_ppaaNodes = reinterpret_cast<CvAStarNode**>(FMALLOCALIGNED( sizeof(CvAStarNode*)*m_iColumns, 64, c_eCiv5GameplayDLL, 0 ) );
-	for (iI = 0; iI < m_iColumns; iI++)
-	{
-		m_ppaaNodes[iI] = reinterpret_cast<CvAStarNode*>(FMALLOCALIGNED( sizeof(CvAStarNode)*m_iRows, 64, c_eCiv5GameplayDLL, 0 ) );
-		for (iJ = 0; iJ < m_iRows; iJ++)
-		{
-			new(&m_ppaaNodes[iI][iJ]) CvAStarNode();
-			m_ppaaNodes[iI][iJ].m_iX = iI;
-			m_ppaaNodes[iI][iJ].m_iY = iJ;
-		}
-	}
-}
+	m_nodePool.Initialize(m_iColumns, m_iRows);
 
-//	--------------------------------------------------------------------------------
-/// Generates a path from iXstart,iYstart to iXdest,iYdest
-bool CvAStar::GeneratePath(int iXstart, int iYstart, int iXdest, int iYdest, int iInfo, bool bReuse)
-{
-	CvAStarNode* temp;
-	int retval;
-
-	const CvGame& game = GC.getGame();
 	bool isMultiplayer = game.isNetworkMultiPlayer();
 	bool discardCacheForMPGame = isMultiplayer && !m_bIsMPCacheSafe;
 
@@ -215,7 +186,7 @@ bool CvAStar::GeneratePath(int iXstart, int iYstart, int iXdest, int iYdest, int
 		return false;
 	}
 
-	PREFETCH_FASTAR_NODE(&(m_ppaaNodes[iXdest][iYdest]));
+	PREFETCH_FASTAR_NODE(m_nodePool.GetNode(iXdest, iYdest));
 	m_iXdest = iXdest;
 	m_iYdest = iYdest;
 
@@ -242,14 +213,14 @@ bool CvAStar::GeneratePath(int iXstart, int iYstart, int iXdest, int iYdest, int
 			}
 		}
 
-		PREFETCH_FASTAR_NODE(&(m_ppaaNodes[iXstart][iYstart]));
+		PREFETCH_FASTAR_NODE(m_nodePool.GetNode(iXstart, iYstart));
 
 		m_pBest = NULL;
 		m_pStackHead = NULL;
 
 		m_bForceReset = false;
 
-		temp = &(m_ppaaNodes[iXstart][iYstart]);
+		temp = m_nodePool.GetNode(iXstart, iYstart);
 
 		temp->m_iKnownCost = 0;
 		if (udHeuristic == NULL)
@@ -282,7 +253,7 @@ bool CvAStar::GeneratePath(int iXstart, int iYstart, int iXdest, int iYdest, int
 
 	if (isValid(m_iXdest, m_iYdest))
 	{
-		temp = &(m_ppaaNodes[m_iXdest][m_iYdest]);
+		temp = m_nodePool.GetNode(m_iXdest, m_iYdest);
 
 		if (temp->m_eCvAStarListType == CVASTARLIST_CLOSED)
 		{
@@ -394,10 +365,10 @@ void CvAStar::CreateChildren(CvAStarNode* node)
 		x += ((y >= 0) ? (y>>1) : ((y - 1)/2));
 		x = xRange(x);
 
-		PREFETCH_FASTAR_NODE(&(m_ppaaNodes[x][y]));
+		PREFETCH_FASTAR_NODE(m_nodePool.GetNode(x, y));
 		if (isValid(x, y))
 		{
-			check = &(m_ppaaNodes[x][y]);
+			check = m_nodePool.GetNode(x, y);
 
 			if (udFunc(udValid, node, check, 0, m_pData))
 			{
@@ -412,11 +383,11 @@ void CvAStar::CreateChildren(CvAStarNode* node)
 		for (int i = 0; i < iExtraChildren; i++)
 		{
 			udGetExtraChildFunc(node, i, x, y, this);
-			PREFETCH_FASTAR_NODE(&(m_ppaaNodes[x][y]));
+			PREFETCH_FASTAR_NODE(m_nodePool.GetNode(x, y));
 
 			if (isValid(x, y))
 			{
-				check = &(m_ppaaNodes[x][y]);
+				check = m_nodePool.GetNode(x, y);
 
 				if (udFunc(udValid, node, check, 0, m_pData))
 				{
@@ -732,7 +703,7 @@ void CvAStar::Push(CvAStarNode* node)
 
 	if (m_pStackHead == NULL)
 	{
-		m_pStackHead = &(m_ppaaNodes[node->m_iX][node->m_iY]);
+		m_pStackHead = m_nodePool.GetNode(node->m_iX, node->m_iY);
 	}
 	else
 	{

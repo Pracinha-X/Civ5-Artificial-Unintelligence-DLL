@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -18,6 +18,7 @@
 #pragma		once
 
 #include	"CvAStarNode.h"
+#include	"CvAStarNodePool.h"
 
 class CvAStar;
 
@@ -335,7 +336,7 @@ protected:
 	CvAStarNode* m_pBest;            // The best node
 	CvAStarNode* m_pStackHead;		// The Push/Pop stack head
 
-	CvAStarNode** m_ppaaNodes;
+	CvAStarNodePool m_nodePool;
 
 	// Scratch buffers
 	void* m_pScratchPtr1;						// Will be cleared to NULL before each GeneratePath call

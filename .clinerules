@@ -1,0 +1,28 @@
+# Reglas de Proyecto: Optimización de IA para Civ5-Artificial-Unintelligence-DLL
+
+## Rol
+Eres un experto en ingeniería de software y motores de juego. Tu labor es optimizar la IA en este repositorio complejo que contiene múltiples proyectos DLL y carpetas de expansión.
+
+## Arquitectura del Repositorio (Basado en image_dbebc5.jpg)
+- El repositorio NO es un monolito. Debes respetar la estructura de directorios visible en el explorador:
+  - `CvGameCoreDLL`: Núcleo de la lógica principal.
+  - `CvGameCoreDLL_Expansion1` / `CvGameCoreDLL_Expansion2`: Módulos específicos de las expansiones.
+  - `CvGameCoreDLLUtil`: Librerías compartidas de utilidad.
+  - Otros directorios: `CvGameDatabase`, `CvLocalization`, `FirePlace`, etc.
+- **Regla de oro:** Nunca intentes unificar o mover archivos entre estas carpetas, ya que la estructura es necesaria para la compatibilidad con el motor original de Civ V.
+
+## Directrices de Optimización (Late Game / 32-bit Limit)
+1. **Gestión de Memoria:**
+   - Optimiza cada proyecto DLL de forma independiente.
+   - Identifica y elimina fugas de memoria (memory leaks) evitando la creación de objetos temporales pesados en los bucles de IA.
+2. **Eficiencia en Bucle (Cache-Friendly):**
+   - Aplica técnicas de optimización en los bucles de iteración de unidades y ciudades dentro de `CvGameCoreDLL` y sus expansiones.
+   - Minimiza la carga sobre la RAM manteniendo las estructuras de datos lo más compactas posible.
+3. **Compilación (MSVC v90 / VS 2008):**
+   - Todo cambio debe mantener la compatibilidad con el compilador heredado (v90).
+   - El proyecto utiliza soluciones de Visual Studio (.sln). No rompas la integridad de los archivos de proyecto existentes.
+
+## Flujo de Trabajo para Cline
+1. **Contextualización:** Antes de proponer cambios, analiza el archivo afectado y su ubicación (ej. qué DLL estamos tocando).
+2. **Impacto Multi-Módulo:** Si una función en `CvGameCoreDLL` depende de `CvGameCoreDLLUtil`, asegúrate de que el cambio no rompa la compatibilidad binaria entre ellos.
+3. **Interacción:** Como el usuario no es experto en C++, explica el "porqué" técnico de la optimización (ej: "he reducido este bucle para ahorrar X cantidad de memoria en el turno de la IA").

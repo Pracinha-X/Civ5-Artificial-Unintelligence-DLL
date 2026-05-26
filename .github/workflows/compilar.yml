@@ -6,8 +6,8 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
+    runs-on: windows-2019 # Usamos 2019 porque tiene mejor soporte para herramientas heredadas (v90)
+    
     steps:
     - name: Descargar el codigo
       uses: actions/checkout@v3
@@ -15,12 +15,23 @@ jobs:
     - name: Configurar MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
-    - name: Compilar Solucion de Civ V
-      run: msbuild CvGameCoreDLL.vs2008.sln /p:Configuration=Release /p:Platform=Win32
+    # Paso 1: Compilar utilidades primero si existen (ejemplo para CvGameCoreDLLUtil)
+    # Si tu estructura requiere compilar Util antes, descomenta y ajusta:
+    # - name: Compilar Utilidades
+    #   run: msbuild CvGameCoreDLLUtil.sln /p:Configuration=Release /p:Platform=Win32
 
-    - name: Capturar la DLL terminada
+    # Paso 2: Compilar la Solución Principal
+    # Es vital que el archivo .sln esté en la raíz tal como muestra tu imagen
+    - name: Compilar Solucion de Civ V
+      run: |
+        msbuild CvGameCoreDLL.vs2008.sln /p:Configuration=Release /p:Platform=Win32 /m
+      # /m permite compilación en paralelo de los proyectos dentro de la solución
+
+    - name: Capturar todas las DLLs resultantes
       uses: actions/upload-artifact@v3
       with:
-        name: CvGameCore_Expansion2_Modificada
-        # Usamos un comodín para atrapar la DLL sin importar en qué subcarpeta de Release se genere
-        path: '**\Release\CvGameCore_Expansion2.dll'
+        name: IA_Modificada_DLLs
+        path: |
+          **\Release\*.dll
+          !**\obj\** # Esto captura cualquier archivo .dll generado en carpetas Release, 
+        # ignorando archivos temporales de compilación.
