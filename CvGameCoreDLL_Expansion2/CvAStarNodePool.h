@@ -1,6 +1,8 @@
 #ifndef CVASTARNODEPOOL_H
 #define CVASTARNODEPOOL_H
 
+#include <new>
+#include "CvGameCoreDLLPCH.h"
 #include "CvAStarNode.h"
 
 class CvAStarNodePool
