@@ -28,7 +28,7 @@ jobs:
       # /m permite compilación en paralelo de los proyectos dentro de la solución
 
     - name: Capturar todas las DLLs resultantes
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: IA_Modificada_DLLs
         path: |
