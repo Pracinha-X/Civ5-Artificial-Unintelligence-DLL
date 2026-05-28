@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -643,7 +643,7 @@ protected:
 	bool m_bTutorialEverAttacked;
 	bool m_bEverRightClickMoved;
 	bool m_bCombatWarned;
-	std::tr1::unordered_set<std::string> m_AdvisorMessagesViewed;
+	stdext::hash_set<std::string> m_AdvisorMessagesViewed;
 	// slewis - tutorial values
 
 	HandicapTypes m_eHandicap;

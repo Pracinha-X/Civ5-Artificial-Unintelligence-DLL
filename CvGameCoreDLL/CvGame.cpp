@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -4371,7 +4371,7 @@ void CvGame::SetStaticTutorialActive (bool bStaticTutorialActive)
 bool CvGame::HasAdvisorMessageBeenSeen(const char* szAdvisorMessageName)
 {
 	std::string strAdvisorMessageName = szAdvisorMessageName;
-	std::tr1::unordered_set<std::string>::iterator it = m_AdvisorMessagesViewed.find(strAdvisorMessageName);
+	stdext::hash_set<std::string>::iterator it = m_AdvisorMessagesViewed.find(strAdvisorMessageName);
 	return it != m_AdvisorMessagesViewed.end();
 }
 
