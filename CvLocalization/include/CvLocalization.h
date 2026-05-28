@@ -11,7 +11,6 @@
 */
 
 #include <iostream>		//! Needed for ostream helper 
-#include <memory>		//! Needed for std::tr1::shared_ptr
 #include <string>		//! Needed for std::string
 #include <vector>		//! Needed for std::vector
 
@@ -89,7 +88,7 @@ namespace Localization
 			double	d;
 		} m_value;
 
-		std::tr1::shared_ptr<String> m_str;
+		String* m_str;
 
 		Type m_type;
 	};
@@ -208,8 +207,8 @@ namespace Localization
 		bool SetOffsetAndLength(size_t offset, size_t length);
 
 	private:
-		//Shared pointer to a raw string buffer.
-		std::tr1::shared_ptr<char> m_Buffer;
+		//Raw pointer to a string buffer.
+		char* m_Buffer;
 
 		//Length of string buffer, used for checking per instance offsets and lengths.
 		size_t m_BufferLength;
