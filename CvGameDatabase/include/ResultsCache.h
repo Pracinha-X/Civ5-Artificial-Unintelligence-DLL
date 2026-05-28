@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 #pragma once 
 
-#include <unordered_map>
+#include <hash_map>
 
 namespace Database{
 
@@ -35,7 +35,7 @@ private:
 
 	Database::Connection& m_db;
 
-	typedef std::tr1::unordered_map<std::string, Results*> ResultsMap;
+	typedef stdext::hash_map<std::string, Results*> ResultsMap;
 	ResultsMap m_storedResults;
 };
 

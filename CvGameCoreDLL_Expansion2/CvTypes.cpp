@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -89,7 +89,7 @@ void CvTypes::AcquireTypes(Database::Connection& db)
 
 	//ArtifactType
 	{
-		typedef std::tr1::unordered_map<std::string, GreatWorkArtifactClass*> LookupTable;
+		typedef stdext::hash_map<std::string, GreatWorkArtifactClass*> LookupTable;
 		LookupTable kArtifactTypeLookupTable;
 		kArtifactTypeLookupTable.insert(make_pair(std::string("ARTIFACT_ANCIENT_RUIN"), &s_eARTIFACT_ANCIENT_RUIN));
 		kArtifactTypeLookupTable.insert(make_pair(std::string("ARTIFACT_BARBARIAN_CAMP"), &s_eARTIFACT_BARBARIAN_CAMP));
@@ -127,7 +127,7 @@ void CvTypes::AcquireTypes(Database::Connection& db)
 
 	//GreatWorkSlots
 	{
-		typedef std::tr1::unordered_map<std::string, GreatWorkSlotType*> LookupTable;
+		typedef stdext::hash_map<std::string, GreatWorkSlotType*> LookupTable;
 		LookupTable kTypeLookupTable;
 		kTypeLookupTable.insert(make_pair(std::string("GREAT_WORK_SLOT_ART_ARTIFACT"), &s_eGREAT_WORK_SLOT_ART_ARTIFACT));
 		kTypeLookupTable.insert(make_pair(std::string("GREAT_WORK_SLOT_LITERATURE"), &s_eGREAT_WORK_SLOT_LITERATURE));
@@ -162,7 +162,7 @@ void CvTypes::AcquireTypes(Database::Connection& db)
 
 	//MissionTypes
 	{
-		typedef std::tr1::unordered_map<std::string, MissionTypes*> LookupTable;
+		typedef stdext::hash_map<std::string, MissionTypes*> LookupTable;
 		LookupTable kMissionTypesLookupTable;
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_MOVE_TO"), &s_eMISSION_MOVE_TO));
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_ROUTE_TO"), &s_eMISSION_ROUTE_TO));
