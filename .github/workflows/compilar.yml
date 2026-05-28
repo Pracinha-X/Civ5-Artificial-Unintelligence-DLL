@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest # Usamos windows-latest para evitar problemas de disponibilidad con runners antiguos
+    runs-on: windows-2019 # Usamos windows-2019 para disponer de compatibilidad con herramientas antiguas
     
     steps:
     - name: Descargar el codigo
@@ -21,33 +21,34 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
+    - name: Setup MSVC v90
+      shell: pwsh
+      run: |
+        choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.v90" -y
+
     # Paso 1: Compilar utilidades primero si existen (ejemplo para CvGameCoreDLLUtil)
     # Si tu estructura requiere compilar Util antes, descomenta y ajusta:
     # - name: Compilar Utilidades
     #   run: msbuild CvGameCoreDLLUtil.sln /p:Configuration=Release /p:Platform=Win32
 
-    # Paso 2: Buscar devenv.com y usarlo para compilar la solución antigua
-    - name: Locate devenv.com
+    - name: Locate VS2019 MSBuild
       shell: pwsh
       run: |
-        $default = 'C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com'
-        if (Test-Path $default) {
-          Write-Host "Found devenv at $default"
-          "DEVENV_PATH=$default" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          exit 0
-        }
-        $paths = Get-ChildItem 'C:\Program Files (x86)\Microsoft Visual Studio' -Filter devenv.com -Recurse -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
-        if (-not $paths) {
-          throw 'devenv.com not found in Visual Studio installation paths'
-        }
-        $path = $paths[0]
-        Write-Host "Found devenv at $path"
-        "DEVENV_PATH=$path" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        $paths = @(
+          'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe',
+          'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe',
+          'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe',
+          'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe'
+        )
+        $msbuild = $paths | Where-Object { Test-Path $_ } | Select-Object -First 1
+        if (-not $msbuild) { throw 'MSBuild.exe not found in Visual Studio 2019 paths' }
+        Write-Host "Found MSBuild at $msbuild"
+        "MSBUILD_PATH=$msbuild" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-    - name: Build with devenv
+    - name: Build with VS2019 MSBuild
       shell: pwsh
       run: |
-        & "$env:DEVENV_PATH" CvGameCoreDLL.vs2008.sln /Build "Release|Win32"
+        & "$env:MSBUILD_PATH" CvGameCoreDLL.vs2008.sln /p:Configuration=Release /p:Platform=Win32 /m
 
     - name: Capturar todas las DLLs resultantes
       uses: actions/upload-artifact@v4
