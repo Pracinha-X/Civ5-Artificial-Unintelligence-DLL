@@ -26,11 +26,28 @@ jobs:
     # - name: Compilar Utilidades
     #   run: msbuild CvGameCoreDLLUtil.sln /p:Configuration=Release /p:Platform=Win32
 
-    # Paso 2: Compilar el proyecto principal directamente
-    - name: Build with MSBuild
+    # Paso 2: Buscar devenv.com y usarlo para compilar la solución antigua
+    - name: Locate devenv.com
+      shell: pwsh
       run: |
-        msbuild CvGameCoreDLL/CvGameCoreDLL.vcproj /p:Configuration=Release /p:Platform=Win32 /m
-      # /m permite compilación en paralelo de los proyectos dentro de la solución
+        $default = 'C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com'
+        if (Test-Path $default) {
+          Write-Host "Found devenv at $default"
+          "DEVENV_PATH=$default" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          exit 0
+        }
+        $paths = Get-ChildItem 'C:\Program Files (x86)\Microsoft Visual Studio' -Filter devenv.com -Recurse -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+        if (-not $paths) {
+          throw 'devenv.com not found in Visual Studio installation paths'
+        }
+        $path = $paths[0]
+        Write-Host "Found devenv at $path"
+        "DEVENV_PATH=$path" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Build with devenv
+      shell: pwsh
+      run: |
+        & "$env:DEVENV_PATH" CvGameCoreDLL.vs2008.sln /Build "Release|Win32"
 
     - name: Capturar todas las DLLs resultantes
       uses: actions/upload-artifact@v4
