@@ -1,12 +1,16 @@
 name: Compilar IA DLL
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [ "master" ]
 
 jobs:
   build:
-    runs-on: windows-2019 # Usamos 2019 porque tiene mejor soporte para herramientas heredadas (v90)
+    runs-on: windows-latest # Usamos windows-latest para evitar problemas de disponibilidad con runners antiguos
     
     steps:
     - name: Descargar el codigo
