@@ -26,11 +26,10 @@ jobs:
     # - name: Compilar Utilidades
     #   run: msbuild CvGameCoreDLLUtil.sln /p:Configuration=Release /p:Platform=Win32
 
-    # Paso 2: Compilar la Solución Principal
-    # Es vital que el archivo .sln esté en la raíz tal como muestra tu imagen
+    # Paso 2: Compilar el proyecto principal directamente
     - name: Build with MSBuild
       run: |
-        msbuild CvGameCoreDLL.vs2008.sln /p:Configuration=Release /p:Platform=Win32 /m
+        msbuild CvGameCoreDLL/CvGameCoreDLL.vcproj /p:Configuration=Release /p:Platform=Win32 /m
       # /m permite compilación en paralelo de los proyectos dentro de la solución
 
     - name: Capturar todas las DLLs resultantes
