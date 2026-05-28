@@ -37,7 +37,7 @@
 #include <map>
 #include <set>
 #include <vector>
-#include <unordered_set>
+#include <hash_set>
 
 
 template<typename FirstType, typename SecondType>
@@ -166,9 +166,9 @@ FDataStream & operator<<(FDataStream & saveTo, const stdext::hash_map<KeyType, E
 }
 
 template<typename KeyType>
-FDataStream & operator <<(FDataStream & saveTo, const std::tr1::unordered_set<KeyType>& readFrom)
+FDataStream & operator <<(FDataStream & saveTo, const stdext::hash_set<KeyType>& readFrom)
 {
-	std::for_each(readFrom.begin(), readFrom.end(), SerializeFromAssociativeContainer<KeyType, const std::tr1::unordered_set<KeyType> >(saveTo, readFrom));
+	std::for_each(readFrom.begin(), readFrom.end(), SerializeFromAssociativeContainer<KeyType, const stdext::hash_set<KeyType> >(saveTo, readFrom));
 	return saveTo;
 }
 
@@ -247,9 +247,9 @@ FDataStream & operator>>(FDataStream & loadFrom, stdext::hash_map<KeyType, Eleme
 }
 
 template<typename KeyType>
-FDataStream & operator>>(FDataStream & loadFrom, std::tr1::unordered_set<KeyType> & writeTo)
+FDataStream & operator>>(FDataStream & loadFrom, stdext::hash_set<KeyType> & writeTo)
 {
-	SerializeToAssociativeContainer<KeyType, std::tr1::unordered_set<KeyType> >(loadFrom, writeTo);
+	SerializeToAssociativeContainer<KeyType, stdext::hash_set<KeyType> >(loadFrom, writeTo);
 	return loadFrom;
 }
 
