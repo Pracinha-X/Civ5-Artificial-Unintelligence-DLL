@@ -14,9 +14,11 @@ jobs:
     
     steps:
     - name: Descargar el codigo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-    - name: Configurar MSBuild
+    - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
     # Paso 1: Compilar utilidades primero si existen (ejemplo para CvGameCoreDLLUtil)
@@ -26,7 +28,7 @@ jobs:
 
     # Paso 2: Compilar la Solución Principal
     # Es vital que el archivo .sln esté en la raíz tal como muestra tu imagen
-    - name: Compilar Solucion de Civ V
+    - name: Build with MSBuild
       run: |
         msbuild CvGameCoreDLL.vs2008.sln /p:Configuration=Release /p:Platform=Win32 /m
       # /m permite compilación en paralelo de los proyectos dentro de la solución
