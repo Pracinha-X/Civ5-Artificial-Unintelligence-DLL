@@ -17,6 +17,11 @@
 #ifndef _INCLUDED_FAutoVector_H
 #define _INCLUDED_FAutoVector_H
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4505)
+#endif
+
 //---------------------------------------------------------------------------------------
 
 #include "FAutoVariable.h"
@@ -488,5 +493,9 @@ FDataStream & operator<<(FDataStream & saveTo, const AutoVectorCommand<ElementTy
 }
 
 //---------------------------------------------------------------------------------------
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif//_INCLUDED_FAutoVector_H
