@@ -245,7 +245,7 @@ std::vector<ElementType>& FAutoVariable<std::vector<ElementType>, ClassContainer
 //---------------------------------------------------------------------------------------
 
 template<typename ElementType, typename ClassContainer>
-std::string FAutoVariable<std::vector<ElementType>, ClassContainer>::toString() const
+inline std::string FAutoVariable<std::vector<ElementType>, ClassContainer>::toString() const
 {
 	return FSerialization::toString(m_value);
 }
@@ -316,7 +316,7 @@ bool FAutoVariable<std::vector<ElementType>, ClassContainer>::compare(FDataStrea
 //---------------------------------------------------------------------------------------
 
 template<typename ElementType, typename ClassContainer>
-const std::string & FAutoVariable<std::vector<ElementType>, ClassContainer>::name() const
+inline const std::string & FAutoVariable<std::vector<ElementType>, ClassContainer>::name() const
 {
 	return *(m_owner.getVariableName(*this));
 }
@@ -333,7 +333,7 @@ FAutoVariable<std::vector<ElementType>, ClassContainer>::operator[](size_t index
 //---------------------------------------------------------------------------------------
 
 template<typename ElementType, typename ClassContainer>
-void FAutoVariable<std::vector<ElementType>, ClassContainer>::setStackTraceRemark()
+inline void FAutoVariable<std::vector<ElementType>, ClassContainer>::setStackTraceRemark()
 {
 #ifndef FINAL_RELEASE
 	m_callStackRemark = m_owner.stackTraceRemark(*this);

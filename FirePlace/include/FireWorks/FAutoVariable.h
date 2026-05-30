@@ -323,7 +323,7 @@ void FAutoVariable<ObjectType, ContainerType>::saveDelta(FDataStream & saveTo) c
 //---------------------------------------------------------------------------------------
 
 template<typename ObjectType, typename ContainerType>
-std::string FAutoVariable<ObjectType, ContainerType>::toString() const
+inline std::string FAutoVariable<ObjectType, ContainerType>::toString() const
 {
 	return FSerialization::toString(m_value);
 }
@@ -345,7 +345,7 @@ bool FAutoVariable<ObjectType, ContainerType>::compare(FDataStream & otherValue)
 //---------------------------------------------------------------------------------------
 
 template<typename ObjectType, typename ContainerType>
-const std::string & FAutoVariable<ObjectType, ContainerType>::name() const
+inline const std::string & FAutoVariable<ObjectType, ContainerType>::name() const
 {
 	// dereferenced because if this variable exists, it MUST be in the map
 	// (or it could never have been constructed in the first place)
@@ -368,7 +368,7 @@ std::string FAutoVariable<ObjectType, ContainerType>::debugDump(const std::vecto
 //---------------------------------------------------------------------------------------
 
 template<typename ObjectType, typename ContainerType>
-void FAutoVariable<ObjectType, ContainerType>::setStackTraceRemark()
+inline void FAutoVariable<ObjectType, ContainerType>::setStackTraceRemark()
 {
 #ifndef FINAL_RELEASE
 	m_callStackRemark = m_owner.stackTraceRemark(*this);
