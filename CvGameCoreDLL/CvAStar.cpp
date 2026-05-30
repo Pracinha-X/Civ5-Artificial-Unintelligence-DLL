@@ -163,7 +163,16 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 	m_pStackHead = NULL;
 
 	m_nodePool.Initialize(m_iColumns, m_iRows);
+}
 
+//	--------------------------------------------------------------------------------
+/// Generates a path from iXstart,iYstart to iXdest,iYdest
+bool CvAStar::GeneratePath(int iXstart, int iYstart, int iXdest, int iYdest, int iInfo, bool bReuse)
+{
+	CvAStarNode* temp;
+	int retval;
+
+	const CvGame& game = GC.getGame();
 	bool isMultiplayer = game.isNetworkMultiPlayer();
 	bool discardCacheForMPGame = isMultiplayer && !m_bIsMPCacheSafe;
 
@@ -190,12 +199,12 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 	m_iXdest = iXdest;
 	m_iYdest = iYdest;
 
-	if (!bReuse)
+	if(!bReuse)
 	{
 		// XXX should we just be doing a memset here?
-		if (m_pOpen)
+		if(m_pOpen)
 		{
-			while (m_pOpen)
+			while(m_pOpen)
 			{
 				temp = m_pOpen->m_pNext;
 				m_pOpen->clear();
@@ -203,9 +212,9 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 			}
 		}
 
-		if (m_pClosed)
+		if(m_pClosed)
 		{
-			while (m_pClosed)
+			while(m_pClosed)
 			{
 				temp = m_pClosed->m_pNext;
 				m_pClosed->clear();
@@ -223,7 +232,7 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 		temp = m_nodePool.GetNode(iXstart, iYstart);
 
 		temp->m_iKnownCost = 0;
-		if (udHeuristic == NULL)
+		if(udHeuristic == NULL)
 		{
 			temp->m_iHeuristicCost = 0;
 		}
@@ -241,9 +250,9 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 		udFunc(udNotifyChild, NULL, temp, ASNC_INITIALADD, m_pData);
 	}
 
-	if (udDestValid != NULL)
+	if(udDestValid != NULL)
 	{
-		if (!udDestValid(iXdest, iYdest, m_pData, this))
+		if(!udDestValid(iXdest, iYdest, m_pData, this))
 		{
 			if (udUninitializeFunc)
 				udUninitializeFunc(m_pData, this);
@@ -251,11 +260,11 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 		}
 	}
 
-	if (isValid(m_iXdest, m_iYdest))
+	if(isValid(m_iXdest, m_iYdest))
 	{
 		temp = m_nodePool.GetNode(m_iXdest, m_iYdest);
 
-		if (temp->m_eCvAStarListType == CVASTARLIST_CLOSED)
+		if(temp->m_eCvAStarListType == CVASTARLIST_CLOSED)
 		{
 			m_pBest = temp;
 			if (udUninitializeFunc)
@@ -266,12 +275,12 @@ void CvAStar::Initialize(int iColumns, int iRows, bool bWrapX, bool bWrapY, CvAP
 
 	retval = 0;
 
-	while (retval == 0)
+	while(retval == 0)
 	{
 		retval = Step();
 	}
 
-	if (retval == -1)
+	if(retval == -1)
 	{
 		assert(m_pBest == NULL);
 		if (udUninitializeFunc)

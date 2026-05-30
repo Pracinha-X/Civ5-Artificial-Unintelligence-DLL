@@ -6408,44 +6408,42 @@ void CvGame::setWinner(TeamTypes eNewWinner, VictoryTypes eNewVictory)
 							if(pLeader == "LEADER_THEODORA")
 							{
 								typedef std::pair<int,int> Location;
-								typedef std::tr1::array<Location, 27> OriginalCitiesArray;
-								OriginalCitiesArray OriginalCities = {
-									Location(65,6), // Alexandria
-									Location(48,7), // Cyrene
-									Location(71,9),  // Caesarea
-									Location(79,13), // Palmyra
-									Location(74,14), // Damascus
-									Location(49,18), // Mistra
-									Location(68,20), // Seleucia
-									Location(73,20), // Antioch
-									Location(63,21), // Attalia
-									Location(76,21), // Edessa
-									Location(51,22), // Athens
-									Location(47,23), // Nicopolis
-									Location(57,23), // Ephesus
-									Location(67,24), // Iconium
-									Location(75,26), // Melitene
-									Location(63,27), // Dorylaeum
-									Location(50,28), // Thessalonica
-									Location(58,29), // Constantinople
-									Location(45,30), // Dyrrachium
-									Location(71,30), // Amasia
-									Location(54,31), // Adrianople
-									Location(64,32), // Amastris
-									Location(78,32), // Theodosiopolis
-									Location(49,34), // Naissus
-									Location(69,34), // Sinope
-									Location(75,34), // Trebizond
-									Location(45,35), // Sirmium	
-
-								};					
+								std::vector<Location> OriginalCities;
+						OriginalCities.push_back(Location(65,6));
+						OriginalCities.push_back(Location(48,7));
+						OriginalCities.push_back(Location(71,9));
+						OriginalCities.push_back(Location(79,13));
+						OriginalCities.push_back(Location(74,14));
+						OriginalCities.push_back(Location(49,18));
+						OriginalCities.push_back(Location(68,20));
+						OriginalCities.push_back(Location(73,20));
+						OriginalCities.push_back(Location(63,21));
+						OriginalCities.push_back(Location(76,21));
+						OriginalCities.push_back(Location(51,22));
+						OriginalCities.push_back(Location(47,23));
+						OriginalCities.push_back(Location(57,23));
+						OriginalCities.push_back(Location(67,24));
+						OriginalCities.push_back(Location(75,26));
+						OriginalCities.push_back(Location(63,27));
+						OriginalCities.push_back(Location(50,28));
+						OriginalCities.push_back(Location(58,29));
+						OriginalCities.push_back(Location(45,30));
+						OriginalCities.push_back(Location(71,30));
+						OriginalCities.push_back(Location(54,31));
+						OriginalCities.push_back(Location(64,32));
+						OriginalCities.push_back(Location(78,32));
+						OriginalCities.push_back(Location(49,34));
+						OriginalCities.push_back(Location(69,34));
+						OriginalCities.push_back(Location(75,34));
+						OriginalCities.push_back(Location(45,35));
+					
 
 								CvMap& kMap = GC.getMap();
 								const PlayerTypes eActivePlayer = GC.getGame().getActivePlayer();
 								bool bHasAllCities = true;
 
 								//Test if we still own each city.
-								for(OriginalCitiesArray::iterator it = OriginalCities.begin(); it != OriginalCities.end(); ++it)
+								for(std::vector<Location>::iterator it = OriginalCities.begin(); it != OriginalCities.end(); ++it)
 								{
 									CvPlot* pkPlot = kMap.plot(it->first, it->second);
 									if(pkPlot != NULL)
@@ -6471,45 +6469,44 @@ void CvGame::setWinner(TeamTypes eNewWinner, VictoryTypes eNewVictory)
 							else if(pLeader == "LEADER_AUGUSTUS")
 							{
 								typedef std::pair<int,int> Location;
-								typedef std::tr1::array<Location, 29> OriginalCitiesArray;
-								OriginalCitiesArray OriginalCities = {
-									Location(10,16), // Russadir
-									Location(15,18), // Iol Caesarea
-									Location(30,18), // Carthage
-									Location(37,19), // Syracuse
-									Location(4,23),  // Gades
-									Location(13,25), // Carthago Nova
-									Location(37,27), // Neapoli
-									Location(41,27), // Brundisium
-									Location(1,29),  // Olisipo
-									Location(6,29),  // Emerita Augusta
-									Location(15,30), // Tarraco
-									Location(33,31), // Rome
-									Location(14,34), // Caesaraugusta
-									Location(20,36), // Narbo
-									Location(24,36), // Massilia
-									Location(40,36), // Salonae
-									Location(28,37), // Genua
-									Location(34,37), // Ravenna
-									Location(3,39),  // Brigantium
-									Location(30,40), // Milan
-									Location(16,42), // Mediolanum
-									Location(22,42), // Lundunum
-									Location(32,45), // Casta Regina
-									Location(41,45), // Carnutum
-									Location(14,47), // Portus Namnetum
-									Location(21,48), // Lutetia
-									Location(26,49), // Trier
-									Location(17,52), // Coriallum
-									Location(22,53)  // Gesoriacum
-								};
+								std::vector<Location> OriginalCities;
+						OriginalCities.push_back(Location(10,16));
+						OriginalCities.push_back(Location(15,18));
+						OriginalCities.push_back(Location(30,18));
+						OriginalCities.push_back(Location(37,19));
+						OriginalCities.push_back(Location(4,23));
+						OriginalCities.push_back(Location(13,25));
+						OriginalCities.push_back(Location(37,27));
+						OriginalCities.push_back(Location(41,27));
+						OriginalCities.push_back(Location(1,29));
+						OriginalCities.push_back(Location(6,29));
+						OriginalCities.push_back(Location(15,30));
+						OriginalCities.push_back(Location(33,31));
+						OriginalCities.push_back(Location(14,34));
+						OriginalCities.push_back(Location(20,36));
+						OriginalCities.push_back(Location(24,36));
+						OriginalCities.push_back(Location(40,36));
+						OriginalCities.push_back(Location(28,37));
+						OriginalCities.push_back(Location(34,37));
+						OriginalCities.push_back(Location(3,39));
+						OriginalCities.push_back(Location(30,40));
+						OriginalCities.push_back(Location(16,42));
+						OriginalCities.push_back(Location(22,42));
+						OriginalCities.push_back(Location(32,45));
+						OriginalCities.push_back(Location(41,45));
+						OriginalCities.push_back(Location(14,47));
+						OriginalCities.push_back(Location(21,48));
+						OriginalCities.push_back(Location(26,49));
+						OriginalCities.push_back(Location(17,52));
+						OriginalCities.push_back(Location(22,53));
+
 
 								CvMap& kMap = GC.getMap();
 								const PlayerTypes eActivePlayer = GC.getGame().getActivePlayer();
 								bool bHasAllCities = true;
 
 								//Test if we still own each city.
-								for(OriginalCitiesArray::iterator it = OriginalCities.begin(); it != OriginalCities.end(); ++it)
+								for(std::vector<Location>::iterator it = OriginalCities.begin(); it != OriginalCities.end(); ++it)
 								{
 									CvPlot* pkPlot = kMap.plot(it->first, it->second);
 									if(pkPlot != NULL)

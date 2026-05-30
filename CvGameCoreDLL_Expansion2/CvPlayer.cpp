@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -2309,22 +2309,20 @@ void CvPlayer::acquireCity(CvCity* pOldCity, bool bConquest, bool bGift)
 			{
 				//Did we cap what was originally a sassinid city?
 				typedef std::pair<int,int> Location;
-				typedef std::tr1::array<Location, 7> SassanidCityArray;
-				SassanidCityArray SassanidCities = {
-					Location(87,17), //Ctesiphon
-					Location(85,20), //Singara
-					Location(81,21), //Nisibis
-					Location(79,24), //Amida
-					Location(82,28), //Thospia
-					Location(81,33), //Anium
-					Location(87,33), //Artaxata
-				};
+				std::vector<Location> SassanidCities;
+				SassanidCities.push_back(Location(87,17)); //Ctesiphon
+				SassanidCities.push_back(Location(85,20)); //Singara
+				SassanidCities.push_back(Location(81,21)); //Nisibis
+				SassanidCities.push_back(Location(79,24)); //Amida
+				SassanidCities.push_back(Location(82,28)); //Thospia
+				SassanidCities.push_back(Location(81,33)); //Anium
+				SassanidCities.push_back(Location(87,33)); //Artaxata
 				
 				int iNewPlotX = pNewCity->getX();
 				int iNewPlotY = pNewCity->getY();
 
 				//Test if we still own each city.
-				for(SassanidCityArray::iterator it = SassanidCities.begin(); it != SassanidCities.end(); ++it)
+				for(std::vector<Location>::iterator it = SassanidCities.begin(); it != SassanidCities.end(); ++it)
 				{
 					if(it->first == iNewPlotX && it->second == iNewPlotY)
 					{
@@ -14700,9 +14698,7 @@ void CvPlayer::SetHasLostCapital(bool bValue, PlayerTypes eConqueror)
 			{
 				// Calculate who owns the most original capitals by iterating through all civs 
 				// and finding out who owns their original capital.
-				typedef std::tr1::array<int, MAX_CIV_TEAMS> CivTeamArray;
-				CivTeamArray aTeamCityCount;
-				aTeamCityCount.assign(0);
+				std::vector<int> aTeamCityCount(MAX_CIV_TEAMS, 0);
 
 				CvMap& kMap = GC.getMap();
 				for (int iLoopPlayer = 0; iLoopPlayer < MAX_MAJOR_CIVS; ++iLoopPlayer)
@@ -14734,7 +14730,7 @@ void CvPlayer::SetHasLostCapital(bool bValue, PlayerTypes eConqueror)
 				}
 
 				// What's the max count and are they the only team to have the max?
-				CivTeamArray::iterator itMax = max_element(aTeamCityCount.begin(), aTeamCityCount.end());
+				std::vector<int>::iterator itMax = max_element(aTeamCityCount.begin(), aTeamCityCount.end());
 				if(count(aTeamCityCount.begin(), aTeamCityCount.end(), *itMax) == 1)
 				{
 					eWinningTeam = static_cast<TeamTypes>(itMax - aTeamCityCount.begin());
