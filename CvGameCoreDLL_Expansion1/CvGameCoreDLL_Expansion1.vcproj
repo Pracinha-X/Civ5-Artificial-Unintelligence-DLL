@@ -62,7 +62,6 @@
 				DisableSpecificWarnings="4505"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
 				CallingConvention="0"
 				EnablePREfast="true"
 			/>
@@ -84,8 +83,7 @@
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\CvWorldBuilderMap\lib\&quot;;&quot;$(ProjectDir)..\CvGameCoreDLLUtil\lib\&quot;;&quot;$(ProjectDir)..\CvLocalization\lib\&quot;;&quot;$(ProjectDir)..\CvGameDatabase\lib\&quot;;&quot;$(ProjectDir)..\FirePlace\lib\&quot;;&quot;$(ProjectDir)..\ThirdPartyLibs\Lua51\lib\&quot;"
 				ModuleDefinitionFile="$(ProjectDir)CvGameCoreDLL.def"
 				DelayLoadDLLs=""
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
