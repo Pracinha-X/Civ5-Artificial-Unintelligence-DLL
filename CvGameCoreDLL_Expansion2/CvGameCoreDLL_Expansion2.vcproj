@@ -47,7 +47,7 @@
 				EnableIntrinsicFunctions="true"
 				OmitFramePointers="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\CvWorldBuilderMap\include\&quot;;&quot;$(ProjectDir)..\CvGameCoreDLLUtil\include\&quot;;&quot;$(ProjectDir)..\CvLocalization\include\&quot;;&quot;$(ProjectDir)..\CvGameDatabase\include\&quot;;&quot;$(ProjectDir)..\FirePlace\include\&quot;;&quot;$(ProjectDir)..\FirePlace\include\FireWorks\&quot;;&quot;$(ProjectDir)..\ThirdPartyLibs\Lua51\include\&quot;"
+				AdditionalIncludeDirectories=".;&quot;$(ProjectDir)..\CvWorldBuilderMap\include\&quot;;&quot;$(ProjectDir)..\CvGameCoreDLLUtil\include\&quot;;&quot;$(ProjectDir)..\CvLocalization\include\&quot;;&quot;$(ProjectDir)..\CvGameDatabase\include\&quot;;&quot;$(ProjectDir)..\FirePlace\include\&quot;;&quot;$(ProjectDir)..\FirePlace\include\FireWorks\&quot;;&quot;$(ProjectDir)..\ThirdPartyLibs\Lua51\include\&quot;"
 				PreprocessorDefinitions="FXS_IS_DLL;WIN32;NDEBUG;_WINDOWS;_USRDLL;CVGAMECOREDLL_EXPORTS;FINAL_RELEASE;_CRT_SECURE_NO_WARNINGS"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
